@@ -60,6 +60,9 @@ def register(func, cls_name, *urls, **kwargs):
         return func(*fargs, **fkwargs)
 
     cls = type(cls_name, (Resource,), {"post": post})
+    doc = kwargs.pop("doc", None)
+    if doc is not None:
+        kwargs["route_doc"] = api._build_doc(cls, doc)
     api.add_resource(cls, *urls, **kwargs)
 
 

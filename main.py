@@ -3,10 +3,15 @@ import funnel
 
 
 def my_function(a, b=10):
-    return a + b
+    return {"result": a + b}
 
 
-funnel.register(my_function, "My_Function", "/")
+parser = funnel.api.parser()
+parser.add_argument("a", type=int, help="First param", location="json")
+parser.add_argument("b", type=int, help="Second param", location="json")
+
+
+funnel.register(my_function, "My_Function", "/", doc={"expect": [parser]})
 
 
 if __name__ == "__main__":
